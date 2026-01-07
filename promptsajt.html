@@ -1,0 +1,63 @@
+<html>
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Prompt Generator</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 24px; }
+    .wrap { max-width: 520px; margin: 0 auto; display: grid; gap: 12px; }
+    h1 { font-size: 22px; margin: 0 0 8px; }
+    button { padding: 12px 14px; font-size: 16px; cursor: pointer; }
+    textarea { width: 100%; min-height: 140px; padding: 12px; font-size: 16px; resize: vertical; }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Prompt Generator</h1>
+
+    <button id="generateBtn">Generate prompt</button>
+
+    <textarea id="output" readonly placeholder="—"></textarea>
+
+    <button id="copyBtn" disabled>Copy</button>
+  </div>
+
+  <script>
+    const PROMPTS = [
+      "Explain {concept} in simple terms.",
+      "Write a short summary about {topic}.",
+      "Give me 5 key points about {topic}.",
+      "Create a step-by-step plan for {goal}.",
+      "Generate 10 questions about {topic}."
+    ];
+
+    const generateBtn = document.getElementById("generateBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const output = document.getElementById("output");
+
+    function generatePrompt() {
+      const i = Math.floor(Math.random() * PROMPTS.length);
+      const prompt = PROMPTS[i];
+      output.value = prompt;
+      copyBtn.disabled = !prompt;
+    }
+
+    async function copyPrompt() {
+      const text = output.value;
+      if (!text) return;
+
+      // Clipboard API (fungerar i moderna webbläsare och kräver oftast https eller localhost)
+      await navigator.clipboard.writeText(text);
+    }
+
+    generateBtn.addEventListener("click", generatePrompt);
+    copyBtn.addEventListener("click", copyPrompt);
+  </script>
+</body>
+</html>
+
+
+Om du vill lägga den på GitHub Pages: lägg `index.html` i ett repo och aktivera **Settings → Pages → Deploy from branch** (main / root).
